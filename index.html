@@ -639,7 +639,7 @@ modo.onclick = () => {
 
 /* Modo revista: duas páginas no computador, uma página no celular */
 const temLivro = () => !!(window.St && St.PageFlip);
-const ehDupla = () => innerWidth >= 960 && innerHeight >= 560;
+const ehDupla = () => innerWidth >= 900 && innerWidth > innerHeight;
 let modoLivro = null;
 function tamLivro(){
   const dupla = ehDupla();
@@ -647,7 +647,7 @@ function tamLivro(){
   const nav = document.querySelector('.nav');
   const navH = getComputedStyle(nav).display === 'none' ? 0 : nav.offsetHeight;
   const alto = innerHeight - navH - (dupla ? 130 : 110);
-  let pw = Math.max(200, Math.min(1123, alto)) * 794 / 1123;
+  let pw = Math.max(260, Math.min(1123, alto)) * 794 / 1123;
   pw = Math.min(pw, dupla ? (innerWidth - 48) / 2 : innerWidth - 16);
   livro.style.width = Math.floor(dupla ? pw * 2 : pw) + 'px';
   livro.style.height = Math.floor(pw * 1123 / 794) + 'px';
