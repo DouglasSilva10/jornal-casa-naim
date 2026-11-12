@@ -170,29 +170,29 @@ body.tudo .passos{display:none}
 
 /* ===== Celular ===== */
 @media (max-width:720px){
-  #folhas .folha{min-height:0}
-  #folhas .miolo{padding:24px 20px 24px}
-  #folhas .capa-grid,#folhas .corpo-grid{grid-template-columns:1fr}
-  #folhas .editorial,#folhas .lateral{border-left:0;padding-left:0;border-top:1px solid var(--linha);padding-top:18px}
-  #folhas .chamadas{grid-template-columns:1fr}
-  #folhas .chamada,#folhas .chamada:nth-child(3n+1){border-left:0;padding-left:0;padding-right:0}
-  #folhas .colunas{column-count:1}
-  #folhas .formas{grid-template-columns:1fr}
-  #folhas .forma,#folhas .forma:nth-child(2n){padding:18px 0;border-left:0}
-  #folhas .expediente{grid-template-columns:1fr}
-  #folhas .telhado{width:180px;height:100px;right:-40px;top:96px}
-  #folhas .rodape{height:72px}
-  #folhas .rodape .txt{left:20px;right:20px;bottom:14px;font-size:9.5px}
-  #folhas .cab img{height:36px}
+  :is(#folhas,.leitura) .folha{min-height:0}
+  :is(#folhas,.leitura) .miolo{padding:24px 20px 24px}
+  :is(#folhas,.leitura) .capa-grid,:is(#folhas,.leitura) .corpo-grid{grid-template-columns:1fr}
+  :is(#folhas,.leitura) .editorial,:is(#folhas,.leitura) .lateral{border-left:0;padding-left:0;border-top:1px solid var(--linha);padding-top:18px}
+  :is(#folhas,.leitura) .chamadas{grid-template-columns:1fr}
+  :is(#folhas,.leitura) .chamada,:is(#folhas,.leitura) .chamada:nth-child(3n+1){border-left:0;padding-left:0;padding-right:0}
+  :is(#folhas,.leitura) .colunas{column-count:1}
+  :is(#folhas,.leitura) .formas{grid-template-columns:1fr}
+  :is(#folhas,.leitura) .forma,:is(#folhas,.leitura) .forma:nth-child(2n){padding:18px 0;border-left:0}
+  :is(#folhas,.leitura) .expediente{grid-template-columns:1fr}
+  :is(#folhas,.leitura) .telhado{width:180px;height:100px;right:-40px;top:96px}
+  :is(#folhas,.leitura) .rodape{height:72px}
+  :is(#folhas,.leitura) .rodape .txt{left:20px;right:20px;bottom:14px;font-size:9.5px}
+  :is(#folhas,.leitura) .cab img{height:36px}
   /* Tela cheia no celular: sem menu, página de ponta a ponta */
   .nav,.passos,.dica-leitura{display:none}
   body{padding-left:0;padding-right:0;padding-block:0;background:var(--papel)}
   html{background:var(--papel)}
   .folhas{gap:0}
-  #folhas .folha{border:0;min-height:100vh;min-height:100svh}
-  #folhas .miolo{padding-top:calc(20px + env(safe-area-inset-top, 0px));padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
-  #folhas .rodape{height:calc(72px + env(safe-area-inset-bottom, 0px))}
-  #folhas .rodape .txt{bottom:calc(14px + env(safe-area-inset-bottom, 0px))}
+  :is(#folhas,.leitura) .folha{border:0;min-height:100vh;min-height:100svh}
+  :is(#folhas,.leitura) .miolo{padding-top:calc(20px + env(safe-area-inset-top, 0px));padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
+  :is(#folhas,.leitura) .rodape{height:calc(72px + env(safe-area-inset-bottom, 0px))}
+  :is(#folhas,.leitura) .rodape .txt{bottom:calc(14px + env(safe-area-inset-bottom, 0px))}
   #pilula{display:block}
   body.tudo #pilula{display:none}
 }
@@ -201,6 +201,27 @@ body.tudo .passos{display:none}
   padding:7px 14px;border-radius:999px;white-space:nowrap;pointer-events:none;font-variant-numeric:tabular-nums;transition:opacity .4s}
 .pilula.some{opacity:0}
 .so-estreito{display:none}
+.seta-dica,.aviso-arraste{display:none}
+.pg-rolagem{width:100%;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--papel)}
+.pg-rolagem .folha{display:flex;width:100%;max-width:none}
+body.retrato.revista .livro-wrap{position:fixed;inset:0;padding:0!important;gap:0;min-height:0;justify-content:flex-start}
+body.retrato.revista .livro-ctrl,body.retrato.revista .dica,body.retrato .flutua,body.retrato #l-ler{display:none!important}
+body.retrato.revista{overflow:hidden}
+body.retrato.revista .seta-dica{display:grid;place-items:center;position:fixed;z-index:8;top:50%;width:38px;height:38px;margin-top:-19px;border-radius:50%;
+  background:var(--tinta);color:var(--papel);opacity:.0;pointer-events:none;font-size:26px;line-height:1;font-weight:700;transition:opacity .3s}
+.seta-dica span{transform:translateY(-2px)}
+.seta-dica.dir{right:calc(8px + env(safe-area-inset-right, 0px))}
+.seta-dica.esq{left:calc(8px + env(safe-area-inset-left, 0px))}
+body.retrato.revista .seta-dica.on{animation:pisca 1.4s ease-in-out infinite}
+body.retrato.revista .seta-dica.dir.on{animation-name:piscaDir}
+body.retrato.revista .seta-dica.esq.on{animation-name:piscaEsq}
+@keyframes piscaDir{0%,100%{opacity:.18;transform:translateX(0)}50%{opacity:.75;transform:translateX(-6px)}}
+@keyframes piscaEsq{0%,100%{opacity:.18;transform:translateX(0)}50%{opacity:.75;transform:translateX(6px)}}
+body.retrato.revista .aviso-arraste{display:block;position:fixed;z-index:8;left:50%;bottom:calc(22px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);
+  background:var(--tinta);color:var(--papel);opacity:.88;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;border-radius:999px;
+  white-space:nowrap;pointer-events:none;transition:opacity .5s}
+.aviso-arraste.some{opacity:0!important}
+@media (prefers-reduced-motion:reduce){body.retrato.revista .seta-dica.on{animation:none;opacity:.5}}
 body.revista:not(.largo) .so-estreito{display:inline-block}
 .flutua{display:none;position:fixed;z-index:7;right:calc(14px + env(safe-area-inset-right, 0px));bottom:calc(18px + env(safe-area-inset-bottom, 0px));
   background:var(--amarelo);border-color:var(--amarelo);padding:10px 16px;font-size:12px}
@@ -310,6 +331,9 @@ body.tudo .dica-leitura,body.revista .dica-leitura{display:none}
 <div class="pilula" id="pilula" aria-live="polite">Toque na lateral para virar</div>
 <p class="dica-leitura">Toque na lateral da página para virar · ou arraste</p>
 <section class="livro-wrap" aria-label="Jornal em modo revista">
+  <div class="seta-dica dir" id="seta-dir" aria-hidden="true"><span>›</span></div>
+  <div class="seta-dica esq" id="seta-esq" aria-hidden="true"><span>‹</span></div>
+  <div class="aviso-arraste" id="aviso-arraste" aria-hidden="true">Arraste para folhear</div>
   <div id="livro"></div>
   <div class="livro-ctrl">
     <button class="seta" id="l-ant" aria-label="Página anterior">←</button>
@@ -608,6 +632,7 @@ const ehDupla = () => innerWidth >= 960 && innerHeight >= 560;
 let modoLivro = null;
 function tamLivro(){
   const dupla = ehDupla();
+  if (!dupla){ livro.style.width = innerWidth + 'px'; livro.style.height = innerHeight + 'px'; return; }
   const nav = document.querySelector('.nav');
   const navH = getComputedStyle(nav).display === 'none' ? 0 : nav.offsetHeight;
   const alto = innerHeight - navH - (dupla ? 130 : 110);
@@ -624,24 +649,54 @@ function escala(){
 function montaLivro(){
   modoLivro = ehDupla() ? 'dupla' : 'retrato';
   $('l-dica').textContent = modoLivro === 'dupla' ? 'Clique no canto da página ou arraste para virar' : 'Toque ou arraste o canto da página para virar';
-  livro.innerHTML = [...document.querySelectorAll('#folhas > .folha')].map((f,i) =>
-    `<div class="pg"${i === 0 || i === N - 1 ? ' data-density="hard"' : ''}><div class="escala">${f.outerHTML.replace(/ id="f-[^"]*"/, '')}</div></div>`).join('');
-  livro.querySelectorAll('.folha').forEach(f => { f.classList.add('fixa','ativa'); f.classList.remove('volta','revela'); });
+  document.body.classList.toggle('retrato', modoLivro === 'retrato');
+  const folhas = [...document.querySelectorAll('#folhas > .folha')];
+  if (modoLivro === 'retrato'){
+    livro.innerHTML = folhas.map(f => `<div class="pg"><div class="pg-rolagem leitura">${f.outerHTML.replace(/ id="f-[^"]*"/, '')}</div></div>`).join('');
+    livro.querySelectorAll('.folha').forEach(f => { f.classList.add('ativa'); f.classList.remove('volta','revela'); });
+  } else {
+    livro.innerHTML = folhas.map((f,i) =>
+      `<div class="pg"${i === 0 || i === N - 1 ? ' data-density="hard"' : ''}><div class="escala">${f.outerHTML.replace(/ id="f-[^"]*"/, '')}</div></div>`).join('');
+    livro.querySelectorAll('.folha').forEach(f => { f.classList.add('fixa','ativa'); f.classList.remove('volta','revela'); });
+  }
   tamLivro();
   const W = parseFloat(livro.style.width), H = parseFloat(livro.style.height);
   const pw = modoLivro === 'retrato' ? W : W / 2;
-  pf = new St.PageFlip(livro, { width:794, height:1123, size:'stretch', minWidth: modoLivro === 'retrato' ? Math.ceil(pw) : 150, maxWidth: Math.floor(pw),
-    minHeight:150, maxHeight:1123, showCover:true, usePortrait: modoLivro === 'retrato', maxShadowOpacity:.4, flippingTime:800,
-    mobileScrollSupport:false, startPage:atual });
+  const retr = modoLivro === 'retrato';
+  pf = new St.PageFlip(livro, { width: retr ? W : 794, height: retr ? H : 1123, size:'stretch', minWidth: modoLivro === 'retrato' ? Math.ceil(pw) : 150, maxWidth: Math.floor(pw),
+    minHeight:150, maxHeight: retr ? H : 1123, showCover:true, usePortrait: retr, maxShadowOpacity:.4, flippingTime:800,
+    mobileScrollSupport: retr, useMouseEvents: !retr, startPage:atual });
   pf.loadFromHTML(livro.querySelectorAll('.pg'));
   livro.style.width = W + 'px'; livro.style.height = H + 'px'; livro.style.minWidth = '0'; livro.style.maxWidth = 'none';
   pf.update && pf.update();
   pf.on('flip', e => {
-    atual = e.data; marcaAbas(e.data); contadorLivro(e.data);
+    atual = e.data; marcaAbas(e.data); contadorLivro(e.data); setas(e.data);
+    if (++virou >= 1) $('aviso-arraste').classList.add('some');
     const id = pags[e.data].id; if (location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id);
   });
   requestAnimationFrame(escala);
   contadorLivro(pf.getCurrentPageIndex());
+  setas(pf.getCurrentPageIndex());
+}
+let virou = 0;
+/* Arrastar o dedo para os lados vira a página no celular, mesmo devagar */
+let ta = null;
+document.querySelector('.livro-wrap').addEventListener('touchstart', e => {
+  if (modoLivro !== 'retrato' || !pf) return;
+  const t = e.touches[0]; ta = {x:t.clientX, y:t.clientY, pag:pf.getCurrentPageIndex()};
+}, {passive:true, capture:true});
+document.querySelector('.livro-wrap').addEventListener('touchend', e => {
+  if (!ta || !pf) return;
+  const t = e.changedTouches[0], dx = t.clientX - ta.x, dy = t.clientY - ta.y, pag = ta.pag; ta = null;
+  if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
+  setTimeout(() => {
+    if (pf.getState && pf.getState() !== 'read') return;
+    dx < 0 ? pf.flipNext('bottom') : pf.flipPrev('bottom');
+  }, 60);
+}, {passive:true, capture:true});
+function setas(c){
+  $('seta-dir').classList.toggle('on', c < N - 1);
+  $('seta-esq').classList.toggle('on', c > 0);
 }
 function refazLivro(){
   try { pf && pf.destroy(); } catch(e){}
@@ -654,6 +709,7 @@ function refazLivro(){
 }
 function revista(on){
   document.body.classList.toggle('revista', on);
+  if (!on) document.body.classList.remove('retrato');
   $('troca').textContent = on ? 'Modo leitura' : 'Modo revista';
   if (on){
     if (ehTudo()) modo.click();
@@ -670,9 +726,13 @@ $('cheia').onclick = () => {
   else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {});
 };
 document.addEventListener('fullscreenchange', () => { $('cheia').textContent = document.fullscreenElement ? 'Sair da tela cheia' : 'Tela cheia'; });
+let tamAnt = [innerWidth, innerHeight];
 function ajusta(){
   document.body.classList.toggle('largo', ehDupla());
   if (!ehRevista() || !pf) return;
+  const mudou = Math.abs(innerWidth - tamAnt[0]) > 2 || Math.abs(innerHeight - tamAnt[1]) > 80;
+  if (modoLivro === 'retrato' && !ehDupla() && !mudou) return;
+  tamAnt = [innerWidth, innerHeight];
   if (modoLivro !== (ehDupla() ? 'dupla' : 'retrato')) refazLivro();
   else refazLivro();
 }
