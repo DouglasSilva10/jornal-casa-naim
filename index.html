@@ -170,29 +170,29 @@ body.tudo .passos{display:none}
 
 /* ===== Celular ===== */
 @media (max-width:720px){
-  .folha{min-height:0}
-  .miolo{padding:24px 20px 24px}
-  .capa-grid,.corpo-grid{grid-template-columns:1fr}
-  .editorial,.lateral{border-left:0;padding-left:0;border-top:1px solid var(--linha);padding-top:18px}
-  .chamadas{grid-template-columns:1fr}
-  .chamada,.chamada:nth-child(3n+1){border-left:0;padding-left:0;padding-right:0}
-  .colunas{column-count:1}
-  .formas{grid-template-columns:1fr}
-  .forma,.forma:nth-child(2n){padding:18px 0;border-left:0}
-  .expediente{grid-template-columns:1fr}
-  .telhado{width:180px;height:100px;right:-40px;top:96px}
-  .rodape{height:72px}
-  .rodape .txt{left:20px;right:20px;bottom:14px;font-size:9.5px}
-  .cab img{height:36px}
+  #folhas .folha{min-height:0}
+  #folhas .miolo{padding:24px 20px 24px}
+  #folhas .capa-grid,#folhas .corpo-grid{grid-template-columns:1fr}
+  #folhas .editorial,#folhas .lateral{border-left:0;padding-left:0;border-top:1px solid var(--linha);padding-top:18px}
+  #folhas .chamadas{grid-template-columns:1fr}
+  #folhas .chamada,#folhas .chamada:nth-child(3n+1){border-left:0;padding-left:0;padding-right:0}
+  #folhas .colunas{column-count:1}
+  #folhas .formas{grid-template-columns:1fr}
+  #folhas .forma,#folhas .forma:nth-child(2n){padding:18px 0;border-left:0}
+  #folhas .expediente{grid-template-columns:1fr}
+  #folhas .telhado{width:180px;height:100px;right:-40px;top:96px}
+  #folhas .rodape{height:72px}
+  #folhas .rodape .txt{left:20px;right:20px;bottom:14px;font-size:9.5px}
+  #folhas .cab img{height:36px}
   /* Tela cheia no celular: sem menu, página de ponta a ponta */
   .nav,.passos,.dica-leitura{display:none}
   body{padding-left:0;padding-right:0;padding-block:0;background:var(--papel)}
   html{background:var(--papel)}
   .folhas{gap:0}
-  .folha{border:0;min-height:100vh;min-height:100svh}
-  .miolo{padding-top:calc(20px + env(safe-area-inset-top, 0px));padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
-  .rodape{height:calc(72px + env(safe-area-inset-bottom, 0px))}
-  .rodape .txt{bottom:calc(14px + env(safe-area-inset-bottom, 0px))}
+  #folhas .folha{border:0;min-height:100vh;min-height:100svh}
+  #folhas .miolo{padding-top:calc(20px + env(safe-area-inset-top, 0px));padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
+  #folhas .rodape{height:calc(72px + env(safe-area-inset-bottom, 0px))}
+  #folhas .rodape .txt{bottom:calc(14px + env(safe-area-inset-bottom, 0px))}
   #pilula{display:block}
   body.tudo #pilula{display:none}
 }
@@ -200,6 +200,18 @@ body.tudo .passos{display:none}
   background:var(--tinta);color:var(--papel);opacity:.86;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
   padding:7px 14px;border-radius:999px;white-space:nowrap;pointer-events:none;font-variant-numeric:tabular-nums;transition:opacity .4s}
 .pilula.some{opacity:0}
+.so-estreito{display:none}
+body.revista:not(.largo) .so-estreito{display:inline-block}
+.flutua{display:none;position:fixed;z-index:7;right:calc(14px + env(safe-area-inset-right, 0px));bottom:calc(18px + env(safe-area-inset-bottom, 0px));
+  background:var(--amarelo);border-color:var(--amarelo);padding:10px 16px;font-size:12px}
+@media (max-width:720px){
+  body.revista{background:var(--mesa)}
+  html:has(body.revista){background:var(--mesa)}
+  body.revista .livro-wrap{min-height:100vh;min-height:100svh;justify-content:center;padding-block:calc(10px + env(safe-area-inset-top, 0px)) calc(10px + env(safe-area-inset-bottom, 0px));gap:12px}
+  body.revista #pilula{display:none}
+  body:not(.revista).tem-livro .flutua{display:inline-block}
+  .livro-ctrl{gap:14px}
+}
 /* Sombra da folha virando (visível também no celular, onde a página não tem borda) */
 .folha-virando{box-shadow:1px 0 0 var(--linha),18px 0 40px rgba(46,43,40,.28)}
 .folha-virando::after{background:linear-gradient(90deg,rgba(46,43,40,.02) 0%,rgba(46,43,40,.10) 55%,rgba(46,43,40,.38) 100%)}
@@ -230,9 +242,10 @@ body.tudo .passos{display:none}
 /* ===== Modo revista (computador) ===== */
 .livro-wrap{display:none}
 body.revista .folhas,body.revista .passos{display:none}
-body.revista .livro-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+body.revista .livro-wrap{width:100%;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:14px}
 #livro{margin:0 auto}
-.pg{background:var(--papel);overflow:hidden}
+.pg{background:var(--papel);overflow:hidden;position:absolute;width:0;height:0}
+.stf__item.pg{width:auto;height:auto}
 .escala{width:794px;height:1123px;transform:scale(var(--k,1));transform-origin:0 0}
 body.revista .chamada *{pointer-events:none}
 .livro-ctrl{position:relative;z-index:3;display:flex;align-items:center;gap:20px}
@@ -293,6 +306,7 @@ body.tudo .dica-leitura,body.revista .dica-leitura{display:none}
   <span class="contador" id="cont">01 / 08</span>
   <button class="passo" id="prox">Próxima →</button>
 </div>
+<button class="modo flutua" id="volta-livro">Folhear</button>
 <div class="pilula" id="pilula" aria-live="polite">Toque na lateral para virar</div>
 <p class="dica-leitura">Toque na lateral da página para virar · ou arraste</p>
 <section class="livro-wrap" aria-label="Jornal em modo revista">
@@ -301,8 +315,9 @@ body.tudo .dica-leitura,body.revista .dica-leitura{display:none}
     <button class="seta" id="l-ant" aria-label="Página anterior">←</button>
     <span class="contador" id="l-cont">Capa</span>
     <button class="seta" id="l-prox" aria-label="Próxima página">→</button>
+    <button class="modo so-estreito" id="l-ler">Ampliar</button>
   </div>
-  <span class="dica">Clique no canto da página ou arraste para virar</span>
+  <span class="dica" id="l-dica">Clique no canto da página ou arraste para virar</span>
 </section>
 <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
 
@@ -487,7 +502,7 @@ function mostraPilula(txt){
 }
 const N = pags.length, dois = n => String(n).padStart(2,'0');
 const $ = id => document.getElementById(id);
-const livro = $('livro');
+let livro = $('livro');
 let pf = null;
 const ehRevista = () => document.body.classList.contains('revista');
 const ehTudo = () => document.body.classList.contains('tudo');
@@ -497,6 +512,10 @@ function marcaAbas(i){
   document.querySelectorAll('.tab').forEach((t,k) => { t.setAttribute('aria-current', k === i); if (k === i) t.scrollIntoView({block:'nearest', inline:'nearest'}); });
 }
 function contadorLivro(c){
+  if (modoLivro === 'retrato'){
+    $('l-cont').textContent = (c === 0 ? 'Capa' : c >= N - 1 ? 'Contracapa' : `Pág. ${dois(c+1)}`) + ` · ${dois(N)}`;
+    $('l-ant').disabled = c === 0; $('l-prox').disabled = c >= N - 1; return;
+  }
   const s = spread(c);
   const txt = c === 0 ? 'Capa' : c >= N - 1 ? 'Contracapa' : (s * 2 < N - 1 ? `Págs. ${dois(s*2)}–${dois(s*2+1)}` : `Pág. ${dois(s*2)}`);
   $('l-cont').textContent = txt + ` · ${dois(N)}`;
@@ -509,7 +528,7 @@ function mostra(id){
   marcaAbas(i);
   if (ehRevista() && pf){
     const c = pf.getCurrentPageIndex();
-    if (spread(c) !== spread(i)) pf.flip(i);
+    if (modoLivro === 'retrato' ? c !== i : spread(c) !== spread(i)) pf.flip(i);
     return;
   }
   const velha = $('f-' + pags[antes].id), nova = $('f-' + pags[i].id);
@@ -558,7 +577,7 @@ $('folhas').addEventListener('click', e => {
 
 /* Primeiro toque no celular: ocupa a tela inteira (onde o navegador permite) */
 let pediuTela = false;
-$('folhas').addEventListener('touchend', () => {
+document.addEventListener('touchend', () => {
   if (pediuTela || !matchMedia('(max-width:720px)').matches) return;
   pediuTela = true;
   const el = document.documentElement;
@@ -583,14 +602,18 @@ modo.onclick = () => {
   mostra(pags[atual].id);
 };
 
-/* Modo revista */
+/* Modo revista: duas páginas no computador, uma página no celular */
 const temLivro = () => !!(window.St && St.PageFlip);
-const cabeRevista = () => temLivro() && innerWidth >= 960 && innerHeight >= 560;
+const ehDupla = () => innerWidth >= 960 && innerHeight >= 560;
+let modoLivro = null;
 function tamLivro(){
-  const alto = innerHeight - document.querySelector('.nav').offsetHeight - 130;
-  let pw = Math.max(300, Math.min(1123, alto)) * 794 / 1123;
-  pw = Math.min(pw, (innerWidth - 48) / 2);
-  livro.style.width = Math.floor(pw * 2) + 'px';
+  const dupla = ehDupla();
+  const nav = document.querySelector('.nav');
+  const navH = getComputedStyle(nav).display === 'none' ? 0 : nav.offsetHeight;
+  const alto = innerHeight - navH - (dupla ? 130 : 110);
+  let pw = Math.max(200, Math.min(1123, alto)) * 794 / 1123;
+  pw = Math.min(pw, dupla ? (innerWidth - 48) / 2 : innerWidth - 16);
+  livro.style.width = Math.floor(dupla ? pw * 2 : pw) + 'px';
   livro.style.height = Math.floor(pw * 1123 / 794) + 'px';
 }
 function escala(){
@@ -599,13 +622,20 @@ function escala(){
   if (w) livro.style.setProperty('--k', w / 794);
 }
 function montaLivro(){
+  modoLivro = ehDupla() ? 'dupla' : 'retrato';
+  $('l-dica').textContent = modoLivro === 'dupla' ? 'Clique no canto da página ou arraste para virar' : 'Toque ou arraste o canto da página para virar';
   livro.innerHTML = [...document.querySelectorAll('#folhas > .folha')].map((f,i) =>
     `<div class="pg"${i === 0 || i === N - 1 ? ' data-density="hard"' : ''}><div class="escala">${f.outerHTML.replace(/ id="f-[^"]*"/, '')}</div></div>`).join('');
-  livro.querySelectorAll('.folha').forEach(f => { f.classList.add('fixa','ativa'); f.classList.remove('volta'); });
+  livro.querySelectorAll('.folha').forEach(f => { f.classList.add('fixa','ativa'); f.classList.remove('volta','revela'); });
   tamLivro();
-  pf = new St.PageFlip(livro, { width:794, height:1123, size:'stretch', minWidth:200, maxWidth:794, minHeight:283, maxHeight:1123,
-    showCover:true, usePortrait:false, maxShadowOpacity:.35, flippingTime:800, mobileScrollSupport:false, startPage:atual });
+  const W = parseFloat(livro.style.width), H = parseFloat(livro.style.height);
+  const pw = modoLivro === 'retrato' ? W : W / 2;
+  pf = new St.PageFlip(livro, { width:794, height:1123, size:'stretch', minWidth: modoLivro === 'retrato' ? Math.ceil(pw) : 150, maxWidth: Math.floor(pw),
+    minHeight:150, maxHeight:1123, showCover:true, usePortrait: modoLivro === 'retrato', maxShadowOpacity:.4, flippingTime:800,
+    mobileScrollSupport:false, startPage:atual });
   pf.loadFromHTML(livro.querySelectorAll('.pg'));
+  livro.style.width = W + 'px'; livro.style.height = H + 'px'; livro.style.minWidth = '0'; livro.style.maxWidth = 'none';
+  pf.update && pf.update();
   pf.on('flip', e => {
     atual = e.data; marcaAbas(e.data); contadorLivro(e.data);
     const id = pags[e.data].id; if (location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id);
@@ -613,31 +643,46 @@ function montaLivro(){
   requestAnimationFrame(escala);
   contadorLivro(pf.getCurrentPageIndex());
 }
+function refazLivro(){
+  try { pf && pf.destroy(); } catch(e){}
+  pf = null;
+  const novo = document.createElement('div'); novo.id = 'livro';
+  const velho = document.getElementById('livro');
+  if (velho) velho.replaceWith(novo); else document.querySelector('.livro-wrap').prepend(novo);
+  livro = novo;
+  montaLivro();
+}
 function revista(on){
   document.body.classList.toggle('revista', on);
   $('troca').textContent = on ? 'Modo leitura' : 'Modo revista';
   if (on){
     if (ehTudo()) modo.click();
-    if (!pf) montaLivro(); else { tamLivro(); pf.update && pf.update(); requestAnimationFrame(escala); pf.turnToPage(atual); contadorLivro(atual); }
-  } else mostra(pags[atual].id);
+    if (!pf) montaLivro();
+    else if (modoLivro !== (ehDupla() ? 'dupla' : 'retrato')) refazLivro();
+    else refazLivro();
+  } else { window.scrollTo({top:0}); mostra(pags[atual].id); }
 }
 $('troca').onclick = () => revista(!ehRevista());
+$('l-ler').onclick = () => revista(false);
+$('volta-livro').onclick = () => revista(true);
 $('cheia').onclick = () => {
   if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
   else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {});
 };
 document.addEventListener('fullscreenchange', () => { $('cheia').textContent = document.fullscreenElement ? 'Sair da tela cheia' : 'Tela cheia'; });
 function ajusta(){
-  document.body.classList.toggle('largo', cabeRevista());
-  if (ehRevista() && !cabeRevista()) revista(false);
-  else if (ehRevista() && pf){ tamLivro(); pf.update && pf.update(); requestAnimationFrame(escala); }
+  document.body.classList.toggle('largo', ehDupla());
+  if (!ehRevista() || !pf) return;
+  if (modoLivro !== (ehDupla() ? 'dupla' : 'retrato')) refazLivro();
+  else refazLivro();
 }
 let tResize; window.addEventListener('resize', () => { clearTimeout(tResize); tResize = setTimeout(ajusta, 150); });
 
 atual = Math.max(0, pags.findIndex(p => p.id === location.hash.slice(1)));
-document.body.classList.toggle('largo', cabeRevista());
+document.body.classList.toggle('largo', ehDupla());
+document.body.classList.toggle('tem-livro', temLivro());
 mostra(pags[atual].id);
-if (cabeRevista()) revista(true);
+if (temLivro()) revista(true);
 tPilula = setTimeout(() => $('pilula').classList.add('some'), 3500);
 </script>
 
