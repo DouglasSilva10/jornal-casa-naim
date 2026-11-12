@@ -1,3 +1,13 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="description" content="Jornal Casa Naim: notícias dos projetos que transformam vidas em Salto/SP.">
 <title>Jornal Casa Naim</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +23,7 @@
   color-scheme: light;
 }
 *{box-sizing:border-box}
-html,body{background:var(--mesa);color:var(--tinta)}
+html,body{background:var(--mesa);color:var(--tinta);margin:0}
 body{font-family:var(--sans);font-size:15px;line-height:1.6;
   padding-left:max(16px, env(safe-area-inset-left, 0px));
   padding-right:max(16px, env(safe-area-inset-right, 0px));
@@ -174,7 +184,23 @@ body.tudo .passos{display:none}
   .rodape{height:72px}
   .rodape .txt{left:20px;right:20px;bottom:14px;font-size:9.5px}
   .cab img{height:36px}
+  /* Tela cheia no celular: sem menu, página de ponta a ponta */
+  .nav,.passos,.dica-leitura{display:none}
+  body{padding-left:0;padding-right:0;padding-block:0;background:var(--papel)}
+  html{background:var(--papel)}
+  .folhas{gap:0}
+  .folha{border:0;min-height:100vh;min-height:100svh}
+  .miolo{padding-top:calc(20px + env(safe-area-inset-top, 0px));padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
+  .rodape{height:calc(72px + env(safe-area-inset-bottom, 0px))}
+  .rodape .txt{bottom:calc(14px + env(safe-area-inset-bottom, 0px))}
+  #pilula{display:block}
+  body.tudo #pilula{display:none}
 }
+.pilula{display:none;position:fixed;z-index:6;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom, 0px));
+  background:var(--tinta);color:var(--papel);opacity:.86;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  padding:7px 14px;border-radius:999px;white-space:nowrap;pointer-events:none;font-variant-numeric:tabular-nums;transition:opacity .4s}
+.pilula.some{opacity:0}
+@media print{.pilula{display:none!important}}
 
 /* ===== Página fixa A4 (revista e PDF) ===== */
 .fixa{width:794px;max-width:none;height:1123px;min-height:0;border:0}
@@ -241,6 +267,9 @@ body.tudo .folha{cursor:auto}
 body.tudo .dica-leitura,body.revista .dica-leitura{display:none}
 @media print{.dica-leitura,.folha-virando,.folha-baixo{display:none}}
 </style>
+</head>
+<body>
+
 
 <nav class="nav" aria-label="Páginas do jornal">
   <div class="nav-in">
@@ -257,6 +286,7 @@ body.tudo .dica-leitura,body.revista .dica-leitura{display:none}
   <span class="contador" id="cont">01 / 08</span>
   <button class="passo" id="prox">Próxima →</button>
 </div>
+<div class="pilula" id="pilula" aria-live="polite">Toque na lateral para virar</div>
 <p class="dica-leitura">Toque na lateral da página para virar · ou arraste</p>
 <section class="livro-wrap" aria-label="Jornal em modo revista">
   <div id="livro"></div>
@@ -442,6 +472,12 @@ document.getElementById('folhas').innerHTML = capa() + PROJETOS.map(projeto).joi
 document.getElementById('tabs').innerHTML = pags.map(p => `<button class="tab" role="tab" data-ir="${p.id}">${p.aba}</button>`).join('');
 
 let atual = 0;
+let tPilula;
+function mostraPilula(txt){
+  const p = document.getElementById('pilula'); if (!p) return;
+  p.textContent = txt; p.classList.remove('some');
+  clearTimeout(tPilula); tPilula = setTimeout(() => p.classList.add('some'), 1800);
+}
 const N = pags.length, dois = n => String(n).padStart(2,'0');
 const $ = id => document.getElementById(id);
 const livro = $('livro');
@@ -487,6 +523,7 @@ function mostra(id){
   }
   $('ant').disabled = i === 0; $('prox').disabled = i === N - 1;
   $('cont').textContent = `${dois(i+1)} / ${dois(N)}`;
+  if (i !== antes) mostraPilula(`${dois(i+1)} / ${dois(N)}`);
   if (ehTudo()) nova.scrollIntoView({behavior:'smooth', block:'start'});
   else if (i !== antes && !anima) window.scrollTo({top:0});
 }
@@ -511,6 +548,15 @@ $('folhas').addEventListener('click', e => {
   const r = f.getBoundingClientRect(), x = (e.clientX - r.left) / r.width;
   if (x > 0.5) passo(1); else passo(-1);
 });
+
+/* Primeiro toque no celular: ocupa a tela inteira (onde o navegador permite) */
+let pediuTela = false;
+$('folhas').addEventListener('touchend', () => {
+  if (pediuTela || !matchMedia('(max-width:720px)').matches) return;
+  pediuTela = true;
+  const el = document.documentElement;
+  if (!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen({navigationUI:'hide'}).catch(() => {});
+}, {passive:true});
 
 /* Arrastar o dedo para virar (celular) */
 let x0 = null, y0 = 0;
@@ -585,4 +631,8 @@ atual = Math.max(0, pags.findIndex(p => p.id === location.hash.slice(1)));
 document.body.classList.toggle('largo', cabeRevista());
 mostra(pags[atual].id);
 if (cabeRevista()) revista(true);
+tPilula = setTimeout(() => $('pilula').classList.add('some'), 3500);
 </script>
+
+</body>
+</html>
